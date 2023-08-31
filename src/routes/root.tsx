@@ -1,5 +1,5 @@
-import React from 'react';
 import Sidebar from 'components/Sidebar';
+import Footer from 'components/Footer/Footer';
 import { Outlet } from 'react-router-dom';
 
 export default function Root() {
@@ -7,6 +7,7 @@ export default function Root() {
     <>
       <Sidebar />
       <Outlet />
+      <Footer />
     </>
   );
 }

@@ -1,6 +1,14 @@
 import Root from './root';
 import ErrorPage from './error/error-page';
-import Home from './Home/Home';
+import Login from './Login';
+import Servicos from './Servicos';
+import Sobre from './Sobre';
+
+export const LOGIN_ROUTE = {
+  path: 'login',
+  element: <Login />,
+  tag: 'Entrar',
+};
 
 export const routes = [
   {
@@ -9,14 +17,17 @@ export const routes = [
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'home',
-        element: <Home />,
+        path: '',
+        element: <Servicos />,
         tag: 'Home',
       },
       {
-        path: 'sobre-nos',
-        element: <>Sobre Nós</>,
+        path: 'sobre',
+        element: <Sobre />,
         tag: 'Sobre Nós',
+      },
+      {
+        ...LOGIN_ROUTE,
       },
     ],
   },

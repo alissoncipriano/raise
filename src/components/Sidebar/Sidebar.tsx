@@ -15,7 +15,7 @@ import HamburgerMenu from 'components/HamburgerMenu/HamburgerMenu';
 import useSidebar from './useSidebar';
 
 const Sidebar = () => {
-  const { isSelectedLink, isLogged } = useSidebar();
+  const { isSelectedLink, isLogged, navItems } = useSidebar();
 
   return (
     <StyledSidebar
@@ -25,7 +25,7 @@ const Sidebar = () => {
       paddingX={10}
       paddingY={0.8}
       bgcolor='white'
-      boxShadow={3}
+      boxShadow={2}
     >
       <Box display='flex' justifyContent='space-between' width='100%'>
         <Box>
@@ -33,7 +33,7 @@ const Sidebar = () => {
         </Box>
 
         <Box display='flex' alignItems='center' gap={5} className='nav-items'>
-          {routes[0].children.map((link) => (
+          {navItems.map((link) => (
             <Box key={link.path}>
               <Link
                 style={{
