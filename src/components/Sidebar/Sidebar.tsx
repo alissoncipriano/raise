@@ -7,7 +7,6 @@ import Logout from 'assets/svg/logout.svg';
 
 import Box from '@mui/material/Box';
 
-import { routes } from 'routes/routes';
 import { IconButton, Typography } from '@mui/material';
 import { theme } from 'theme/theme';
 
@@ -15,7 +14,7 @@ import HamburgerMenu from 'components/HamburgerMenu/HamburgerMenu';
 import useSidebar from './useSidebar';
 
 const Sidebar = () => {
-  const { isSelectedLink, isLogged, navItems } = useSidebar();
+  const { isSelectedLink, isLogged, navItems, logout } = useSidebar();
 
   return (
     <StyledSidebar
@@ -53,7 +52,7 @@ const Sidebar = () => {
           ))}
 
           {isLogged && (
-            <IconButton size='large'>
+            <IconButton size='large' onClick={logout}>
               <img src={Logout} alt='Logout icone' width={20} />
             </IconButton>
           )}

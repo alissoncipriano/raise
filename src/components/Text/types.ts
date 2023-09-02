@@ -1,6 +1,6 @@
 import { TypographyProps } from '@mui/material';
 
 export type TextProps = {
-  children: string;
+  children: any;
   typographyProps?: TypographyProps;
 };

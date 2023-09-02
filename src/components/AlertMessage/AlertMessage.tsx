@@ -4,6 +4,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { theme } from 'theme/theme';
 import { JSX } from 'react/jsx-runtime';
 
@@ -12,7 +13,7 @@ function TransitionLeft(props: JSX.IntrinsicAttributes & SlideProps) {
 }
 
 const AlertMessage = () => {
-  const { open, message, handleClose } = useAlertMessage();
+  const { open, message, handleClose, type } = useAlertMessage();
 
   return (
     <Snackbar
@@ -21,6 +22,9 @@ const AlertMessage = () => {
       onClose={handleClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       TransitionComponent={TransitionLeft}
+      sx={{
+        zIndex: 1000000000000,
+      }}
     >
       <Alert
         onClose={handleClose}
@@ -28,15 +32,24 @@ const AlertMessage = () => {
         sx={{
           width: '100%',
           marginTop: 8,
-          backgroundColor: theme.palette.errorAlert.light,
+          backgroundColor:
+            type === 'success' ? '#00890b' : theme.palette.errorAlert.light,
           color: theme.palette.errorAlert.contrastText,
         }}
         icon={
-          <ReportProblemIcon
-            style={{
-              color: theme.palette.errorAlert.contrastText,
-            }}
-          />
+          type === 'success' ? (
+            <CheckCircleIcon
+              style={{
+                color: theme.palette.errorAlert.contrastText,
+              }}
+            />
+          ) : (
+            <ReportProblemIcon
+              style={{
+                color: theme.palette.errorAlert.contrastText,
+              }}
+            />
+          )
         }
       >
         {message}

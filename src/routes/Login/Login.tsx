@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import UserService from 'services/UserService';
 
 import { useForm } from 'react-hook-form';
 
@@ -19,8 +19,8 @@ import { StyledButton } from 'components/StyledButton/StyledButton.styles';
 import { StyledFormInput } from 'components/StyledFormInput/StyledFormInput.styles';
 
 const Login = () => {
+  const { authenticate } = UserService();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const {
     register,
@@ -38,12 +38,16 @@ const Login = () => {
 
   const disabledFormButton = Object.entries(dirtyFields).length === 3;
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
     if (Object.values(errors).length > 0)
-      dispatch(showAlert(Object.values(errors)[0]?.message as string));
+      dispatch(
+        showAlert({
+          message: Object.values(errors)[0]?.message as string,
+        })
+      );
     else {
       // console.log(getValues());
-      navigate(`/`);
+      await authenticate();
     }
   };
 
