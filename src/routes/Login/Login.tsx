@@ -1,3 +1,10 @@
+import { useNavigate } from 'react-router-dom';
+
+import { useForm } from 'react-hook-form';
+
+import { useDispatch } from 'react-redux';
+import { showAlert } from 'store/AlertSlice';
+
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
@@ -7,38 +14,39 @@ import Text from 'components/Text';
 import Logo from 'assets/svg/logoFull.svg';
 
 import { theme } from 'theme/theme';
-import { InputBase, styled } from '@mui/material';
+
 import { StyledButton } from 'components/StyledButton/StyledButton.styles';
-
-export const StyledLoginInput = styled(InputBase)(() => ({
-  '&.MuiInputBase-root': {
-    backgroundColor: 'rgba(201, 201, 201, 0.19)',
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingRight: 15,
-    paddingLeft: 15,
-    borderRadius: 5,
-    border: '1px solid #e7e7e7',
-  },
-
-  '& .MuiInputBase-input': {
-    '&::placeholder': {
-      color: '#000000',
-      opacity: 0.3,
-      fontWeight: 500,
-    },
-
-    '&:hover::placeholder': {
-      opacity: 0.4,
-    },
-
-    '&:focus::placeholder': {
-      opacity: 0.1,
-    },
-  },
-}));
+import { StyledFormInput } from 'components/StyledFormInput/StyledFormInput.styles';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getValues,
+    formState: { dirtyFields, errors },
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      user: '',
+      password: '',
+      companyCode: '',
+    },
+  });
+
+  const disabledFormButton = Object.entries(dirtyFields).length === 3;
+
+  const handleSubmitClick = () => {
+    if (Object.values(errors).length > 0)
+      dispatch(showAlert(Object.values(errors)[0]?.message as string));
+    else {
+      // console.log(getValues());
+      navigate(`/`);
+    }
+  };
+
   return (
     <Page
       boxProps={{
@@ -79,27 +87,52 @@ const Login = () => {
             <Box>
               <form>
                 <Box display='flex' flexDirection='column' gap={2}>
-                  <StyledLoginInput
+                  <StyledFormInput
                     fullWidth
                     placeholder='Seu usuário aqui'
                     inputProps={{ 'aria-label': 'seu usuário aqui' }}
+                    {...register('user', {
+                      required: 'Campo usuário obrigatório',
+                    })}
                   />
 
-                  <StyledLoginInput
+                  <StyledFormInput
                     fullWidth
                     placeholder='Sua senha aqui'
+                    type='password'
                     inputProps={{ 'aria-label': 'sua senha aqui' }}
+                    {...register('password', {
+                      required: 'Campo senha obrigatório',
+                      minLength: {
+                        value: 8,
+                        message: 'A senha deve ter ao menos 8 caractéres',
+                      },
+                    })}
                   />
 
-                  <StyledLoginInput
+                  <StyledFormInput
                     fullWidth
                     placeholder='O código de sua empresa aqui'
                     inputProps={{
                       'aria-label': 'o código de sua empresa aqui',
                     }}
+                    {...register('companyCode', {
+                      required: 'Campo código da empresa obrigatório',
+                      minLength: {
+                        value: 3,
+                        message:
+                          'O código da empresa deve ter ao menos 3 caractéres',
+                      },
+                    })}
                   />
 
-                  <StyledButton fullWidth>ACESSE AGORA</StyledButton>
+                  <StyledButton
+                    fullWidth
+                    disabled={!disabledFormButton}
+                    onClick={handleSubmitClick}
+                  >
+                    ACESSE AGORA
+                  </StyledButton>
                 </Box>
               </form>
             </Box>

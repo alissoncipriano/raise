@@ -7,7 +7,6 @@ const useSidebar = () => {
   const location = useLocation();
 
   const isSelectedLink = (link: string) => {
-    console.log(location.pathname === '/');
     if (link === '') return location.pathname === '/';
 
     return location.pathname.includes(link);

@@ -1,4 +1,4 @@
-import { Button, darken, styled } from '@mui/material';
+import { Button, darken, lighten, styled } from '@mui/material';
 
 export const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -7,5 +7,10 @@ export const StyledButton = styled(Button)(({ theme }) => ({
 
   '&:hover': {
     backgroundColor: darken(theme.palette.primary.main, 0.2),
+  },
+
+  '&:disabled': {
+    backgroundColor: lighten(theme.palette.primary.main, 0.5),
+    color: '#FFF',
   },
 }));
